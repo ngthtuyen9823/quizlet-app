@@ -1,17 +1,16 @@
 package com.flashcard.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "user")
+@Table(name = "`user`")
 public class User {
     @Id
     @Column(name = "user_id")
