@@ -12,7 +12,8 @@ import java.io.Serializable;
 @Embeddable
 public class UseOfStudySetKey implements Serializable {
     @Column(name = "user_id")
-    private Long userId;
+    private long userId;
+
     @Column(name = "study_set_id")
-    private Long studySetId;
+    private long studySetId;
 }
