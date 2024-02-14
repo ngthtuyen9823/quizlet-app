@@ -1,7 +1,6 @@
 package com.flashcard.repository;
 
 import com.flashcard.entity.User;
-import com.flashcard.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,31 +26,34 @@ public class UserRepositoryTest {
     @Order(1)
     @Rollback(value = false)
     public void saveUserTest() throws Exception {
+        // Given
         User user = createUser();
-
+        // When
         User savedUser = userRepository.save(user);
-
+        // Then
         Assertions.assertThat(savedUser).isNotNull();
     }
 
     @Test
     @Order(2)
     public void getUserTest() throws Exception {
+        // Given
         User savedUser = null;
+        // When
         Optional<User> optionalUser = userRepository.findById(1L);
-
         if (optionalUser.isPresent()) {
             savedUser = optionalUser.get();
         }
-
+        // Then
         Assertions.assertThat(savedUser).isNotNull();
     }
 
     @Test
     @Order(3)
     public void getListUsersTest() throws Exception {
+        // When
         List<User> users = userRepository.findAll();
-
+        // Then
         Assertions.assertThat(users.size()).isGreaterThan(0);
     }
 
@@ -59,10 +61,11 @@ public class UserRepositoryTest {
     @Order(4)
     @Rollback(value = false)
     public void updateUserTest() throws Exception {
+        // Given
         savedUser.setUserName("username");
-
+        // When
         User newUser = userRepository.save(savedUser);
-
+        // Then
         Assertions.assertThat(newUser.getUserName()).isEqualTo(savedUser.getUserName());
     }
 
@@ -70,10 +73,11 @@ public class UserRepositoryTest {
     @Order(5)
     @Rollback(value = false)
     public void deleteUserTest() throws Exception {
+        // Given
        long userId = savedUser.getUserId();
-
+       // When
        userRepository.delete(savedUser);
-
+       // Then
        Assertions.assertThat(userRepository.findById(userId)).isNotPresent();
     }
 

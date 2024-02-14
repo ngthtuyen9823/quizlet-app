@@ -3,8 +3,6 @@ package com.flashcard.repository;
 import com.flashcard.entity.User;
 import com.flashcard.entity.StudySet;
 import com.flashcard.enums.EVisibility;
-import com.flashcard.repository.StudySetRepository;
-import com.flashcard.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,31 +34,34 @@ public class StudySetRepositoryTest {
     @Order(1)
     @Rollback(value = false)
     public void saveStudySetTest() throws Exception {
+        // Given
         StudySet studySet = createStudySet();
-
+        // When
         StudySet savedStudySet = studySetRepository.save(studySet);
-
+        // Then
         Assertions.assertThat(savedStudySet).isNotNull();
     }
 
     @Test
     @Order(2)
     public void getStudySetTest() throws Exception {
+        // Given
         StudySet savedStudySet = null;
+        // When
         Optional<StudySet> optionalStudySet = studySetRepository.findById(1L);
-
         if (optionalStudySet.isPresent()) {
             savedStudySet = optionalStudySet.get();
         }
-
+        // Then
         Assertions.assertThat(savedStudySet).isNotNull();
     }
 
     @Test
     @Order(3)
     public void getListCardsTest() throws Exception {
+        // When
         List<StudySet> savedStudySets = studySetRepository.findAll();
-
+        // Then
         Assertions.assertThat(savedStudySets.size()).isGreaterThan(0);
     }
 
@@ -68,10 +69,11 @@ public class StudySetRepositoryTest {
     @Order(4)
     @Rollback(value = false)
     public void updateStudySetTest() throws Exception {
+        // Given
         savedStudySet.setCreatedAt(LocalDateTime.parse("2019-12-15T15:14:21.629"));
-
+        // When
         StudySet newStudySet = studySetRepository.save(savedStudySet);
-
+        // Then
         Assertions.assertThat(newStudySet.getCreatedAt()).isEqualTo(savedStudySet.getCreatedAt());
     }
 
@@ -80,10 +82,11 @@ public class StudySetRepositoryTest {
     @Order(5)
     @Rollback(value = false)
     public void deleteStudySetTest() throws Exception {
+        // Given
         long savedStudySetId = savedStudySet.getStudySetId();
-
+        // When
         studySetRepository.delete(savedStudySet);
-
+        // Then
         Assertions.assertThat(studySetRepository.findById(savedStudySetId)).isNotPresent();
     }
 

@@ -38,31 +38,34 @@ public class UseOfStudySetRepositoryTest {
     @Order(1)
     @Rollback(value = false)
     public void saveUseOfStudySetTest() throws Exception {
+        // Given
         UseOfStudySet useOfStudySet = createUseOfStudySet();
-
+        // When
         UseOfStudySet savedUseOfStudySet = useOfStudySetRepository.save(useOfStudySet);
-
+        // Then
         Assertions.assertThat(savedUseOfStudySet).isNotNull();
     }
 
     @Test
     @Order(2)
     public void getUseOfStudySetTest() throws Exception {
+        // Given
         UseOfStudySet savedUseOfStudySet = null;
+        // When
         Optional<UseOfStudySet> optionalUseOfStudySet = useOfStudySetRepository.findById(1L);
-
         if (optionalUseOfStudySet.isPresent()) {
             savedUseOfStudySet = optionalUseOfStudySet.get();
         }
-
+        // Then
         Assertions.assertThat(savedUseOfStudySet).isNotNull();
     }
 
     @Test
     @Order(3)
     public void getListUseOfStudySetsTest() throws Exception {
+        // When
         List<UseOfStudySet> savedUseOfStudySets = useOfStudySetRepository.findAll();
-
+        // Then
         Assertions.assertThat(savedUseOfStudySets.size()).isGreaterThan(0);
     }
 
@@ -70,10 +73,11 @@ public class UseOfStudySetRepositoryTest {
     @Order(4)
     @Rollback(value = false)
     public void updateUseOfStudySetTest() throws Exception {
+        // Given
         savedUseOfStudySet.setLastViewedAt(LocalDateTime.parse("2019-12-15T15:14:21.629"));
-
+        // When
         UseOfStudySet newUseOfStudySet = useOfStudySetRepository.save(savedUseOfStudySet);
-
+        // Then
         Assertions.assertThat(newUseOfStudySet.getLastViewedAt()).isEqualTo(savedUseOfStudySet.getLastViewedAt());
     }
 
@@ -82,11 +86,12 @@ public class UseOfStudySetRepositoryTest {
     @Order(5)
     @Rollback(value = false)
     public void deleteUseOfStudySetTest() throws Exception {
+        // Given
         long savedStudySetId = savedUseOfStudySet.getStudySet().getStudySetId();
         long savedUserId = savedUseOfStudySet.getUser().getUserId();
-
+        // When
         useOfStudySetRepository.delete(savedUseOfStudySet);
-
+        // Then
         Assertions.assertThat(useOfStudySetRepository.findByStudySetIdAndUserId(savedStudySetId, savedUserId)).isNotPresent();
     }
 

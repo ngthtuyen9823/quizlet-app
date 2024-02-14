@@ -4,9 +4,6 @@ import com.flashcard.entity.Card;
 import com.flashcard.entity.StudySet;
 import com.flashcard.entity.User;
 import com.flashcard.enums.EVisibility;
-import com.flashcard.repository.CardRepository;
-import com.flashcard.repository.StudySetRepository;
-import com.flashcard.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,31 +38,34 @@ public class CardRepositoryTest {
     @Order(1)
     @Rollback(value = false)
     public void saveCardTest() throws Exception {
+        // Given
         Card card = createCard();
-
+        // When
         Card savedCard = cardRepository.save(card);
-
+        // Then
         Assertions.assertThat(savedCard).isNotNull();
     }
 
     @Test
     @Order(2)
     public void getCardTest() throws Exception {
+        // Given
         Card savedCard = null;
+        // When
         Optional<Card> optionalCard = cardRepository.findById(1L);
-
         if (optionalCard.isPresent()) {
             savedCard = optionalCard.get();
         }
-
+        // Then
         Assertions.assertThat(savedCard).isNotNull();
     }
 
     @Test
     @Order(3)
     public void getListCardsTest() throws Exception {
+        // When
         List<Card> savedCards = cardRepository.findAll();
-
+        // Then
         Assertions.assertThat(savedCards.size()).isGreaterThan(0);
     }
 
@@ -73,10 +73,11 @@ public class CardRepositoryTest {
     @Order(4)
     @Rollback(value = false)
     public void updateCardTest() throws Exception {
+        // Given
         savedCard.setCreatedAt(LocalDateTime.parse("2019-12-15T15:14:21.629"));
-
+        // When
         Card newCard = cardRepository.save(savedCard);
-
+        // Then
         Assertions.assertThat(newCard.getCreatedAt()).isEqualTo(savedCard.getCreatedAt());
     }
 
@@ -85,10 +86,11 @@ public class CardRepositoryTest {
     @Order(5)
     @Rollback(value = false)
     public void deleteCardTest() throws Exception {
+        // Given
         long savedCardId = savedCard.getCardId();
-
+        // When
         cardRepository.delete(savedCard);
-
+        // Then
         Assertions.assertThat(cardRepository.findById(savedCardId)).isNotPresent();
     }
 
