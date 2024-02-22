@@ -1,7 +1,9 @@
 package com.flashcard.converter;
 
 import com.flashcard.dto.CardDTO;
+import com.flashcard.dto.StudySetDTO;
 import com.flashcard.entity.Card;
+import com.flashcard.entity.StudySet;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,6 +16,9 @@ public class CardConverter {
     @Autowired
     private ModelMapper mapper;
 
+    @Autowired
+    private StudySetConverter studySetConverter;
+
     public List<CardDTO> convertEntitiesToDTOs(List<Card> cards) {
         return cards.stream().map(this::convertEntityToDTO).collect(Collectors.toList());
     }
@@ -21,7 +26,8 @@ public class CardConverter {
     public CardDTO convertEntityToDTO(Card card) {
         if (card == null) return null;
         CardDTO cardDTO = mapper.map(card, CardDTO.class);
-        cardDTO.setStudySet(card.getStudySet().getTitle());
+        StudySetDTO studySetDTO = studySetConverter.convertEntityToDTO(card.getStudySet());
+        cardDTO.setStudySet(studySetDTO);
         return cardDTO;
     }
 
@@ -31,6 +37,9 @@ public class CardConverter {
 
     public Card convertDTOToEntity(CardDTO cardDTO) {
         if (cardDTO == null) return null;
-        return mapper.map(cardDTO, Card.class);
+        Card card = mapper.map(cardDTO, Card.class);
+        StudySet studySet = studySetConverter.convertDTOToEntity(cardDTO.getStudySet());
+        card.setStudySet(studySet);
+        return card;
     }
 }

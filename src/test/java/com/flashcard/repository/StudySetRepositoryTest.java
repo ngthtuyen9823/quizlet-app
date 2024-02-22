@@ -36,56 +36,76 @@ public class StudySetRepositoryTest {
     public void saveStudySetTest() throws Exception {
         // Given
         StudySet studySet = createStudySet();
+
         // When
         StudySet savedStudySet = studySetRepository.save(studySet);
+
         // Then
         Assertions.assertThat(savedStudySet).isNotNull();
     }
 
     @Test
     @Order(2)
-    public void getStudySetTest() throws Exception {
+    public void getStudySetByIdTest() throws Exception {
         // Given
         StudySet savedStudySet = null;
+
         // When
         Optional<StudySet> optionalStudySet = studySetRepository.findById(1L);
         if (optionalStudySet.isPresent()) {
             savedStudySet = optionalStudySet.get();
         }
+
         // Then
         Assertions.assertThat(savedStudySet).isNotNull();
     }
 
     @Test
     @Order(3)
-    public void getListCardsTest() throws Exception {
+    public void getStudySetsByUserIdTest() throws Exception {
+        // When
+        List<StudySet> studySet = studySetRepository.findByUser(savedUser.getUserId());
+
+        // Then
+        Assertions.assertThat(studySet).isNotNull();
+    }
+
+
+    @Test
+    @Order(4)
+    public void getStudySetsTest() throws Exception {
         // When
         List<StudySet> savedStudySets = studySetRepository.findAll();
+
         // Then
         Assertions.assertThat(savedStudySets.size()).isGreaterThan(0);
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     @Rollback(value = false)
     public void updateStudySetTest() throws Exception {
         // Given
         savedStudySet.setCreatedAt(LocalDateTime.parse("2019-12-15T15:14:21.629"));
+
         // When
         StudySet newStudySet = studySetRepository.save(savedStudySet);
+
         // Then
         Assertions.assertThat(newStudySet.getCreatedAt()).isEqualTo(savedStudySet.getCreatedAt());
     }
 
 
     @Test
-    @Order(5)
+    @Order(6)
     @Rollback(value = false)
     public void deleteStudySetTest() throws Exception {
         // Given
         long savedStudySetId = savedStudySet.getStudySetId();
+
         // When
         studySetRepository.delete(savedStudySet);
+
         // Then
         Assertions.assertThat(studySetRepository.findById(savedStudySetId)).isNotPresent();
     }
@@ -95,6 +115,8 @@ public class StudySetRepositoryTest {
                 .userName("test")
                 .password("hello")
                 .email("cmc@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
         return userRepository.save(user);
     }

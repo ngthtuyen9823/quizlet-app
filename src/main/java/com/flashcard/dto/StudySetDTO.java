@@ -13,5 +13,5 @@ public class StudySetDTO {
     private String description;
     private String sharedLink;
     private EVisibility visibility;
-    private String user;
+    private UserDTO user;
 }

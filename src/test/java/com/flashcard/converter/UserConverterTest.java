@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
+
 @SpringBootTest
 public class UserConverterTest {
     @Autowired
@@ -20,6 +22,8 @@ public class UserConverterTest {
                 .userName("test")
                 .password("hello")
                 .email("cmc@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
 
         // When

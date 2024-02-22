@@ -1,6 +1,7 @@
 package com.flashcard.converter;
 
 import com.flashcard.dto.StudySetDTO;
+import com.flashcard.dto.UserDTO;
 import com.flashcard.entity.StudySet;
 import com.flashcard.entity.User;
 import com.flashcard.enums.EVisibility;
@@ -8,6 +9,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.time.LocalDateTime;
 
 @SpringBootTest
 public class StudySetConverterTest {
@@ -22,6 +25,8 @@ public class StudySetConverterTest {
                 .userName("test")
                 .password("hello")
                 .email("cmc@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
 
         StudySet studySet = StudySet.builder()
@@ -42,7 +47,7 @@ public class StudySetConverterTest {
         Assertions.assertThat(studySet.getDescription()).isEqualTo(studySetDTO.getDescription());
         Assertions.assertThat(studySet.getSharedLink()).isEqualTo(studySetDTO.getSharedLink());
         Assertions.assertThat(studySet.getVisibility()).isEqualTo(studySetDTO.getVisibility());
-        Assertions.assertThat(studySet.getUser().getUserName()).isEqualTo(studySetDTO.getUser());
+        Assertions.assertThat(studySet.getUser().getUserId()).isEqualTo(studySetDTO.getUser().getUserId());
     }
 
     @Test
@@ -60,13 +65,19 @@ public class StudySetConverterTest {
     @Test
     public void ConvertStudySetDTOToEntity() throws Exception {
         // Given
+        UserDTO userDTO = UserDTO.builder()
+                .userId(1L)
+                .userName("test")
+                .email("cmc@gmail.com")
+                .build();
+
         StudySetDTO studySetDTO = StudySetDTO.builder()
                 .studySetId(1L)
                 .title("Test Title")
                 .description("Test description")
                 .sharedLink("http://sharedlinktest")
                 .visibility(EVisibility.valueOf("everyone"))
-                .user("testuser")
+                .user(userDTO)
                 .build();
 
         // When
@@ -78,6 +89,7 @@ public class StudySetConverterTest {
         Assertions.assertThat(studySet.getDescription()).isEqualTo(studySetDTO.getDescription());
         Assertions.assertThat(studySet.getSharedLink()).isEqualTo(studySetDTO.getSharedLink());
         Assertions.assertThat(studySet.getVisibility()).isEqualTo(studySetDTO.getVisibility());
+        Assertions.assertThat(studySet.getUser().getUserId()).isEqualTo(studySetDTO.getUser().getUserId());
     }
 
     @Test

@@ -100,6 +100,8 @@ public class UseOfStudySetRepositoryTest {
                 .userName("test")
                 .password("hello")
                 .email("cmc@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
         return userRepository.save(user);
     }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,7 @@ public class UserRepositoryTest {
 
     @Test
     @Order(2)
-    public void getUserTest() throws Exception {
+    public void getUserByIdTest() throws Exception {
         // Given
         User savedUser = null;
         // When
@@ -88,9 +89,11 @@ public class UserRepositoryTest {
 
     private User createUser() {
         return User.builder()
-                .userName("test")
+                .userName("test1")
                 .password("hello")
                 .email("cmc@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 }

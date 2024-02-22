@@ -1,6 +1,8 @@
 package com.flashcard.converter;
 
 import com.flashcard.dto.CardDTO;
+import com.flashcard.dto.StudySetDTO;
+import com.flashcard.dto.UserDTO;
 import com.flashcard.entity.Card;
 import com.flashcard.entity.StudySet;
 import com.flashcard.entity.User;
@@ -25,7 +27,10 @@ public class CardConverterTest {
                 .userName("test")
                 .password("hello")
                 .email("cmc@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
+
         StudySet studySet = StudySet.builder()
                 .studySetId(1L)
                 .title("Test Title")
@@ -36,6 +41,7 @@ public class CardConverterTest {
                 .updatedAt(LocalDateTime.now())
                 .user(user)
                 .build();
+
         Card card = Card.builder()
                 .cardId(1L)
                 .term("Term Test")
@@ -55,7 +61,7 @@ public class CardConverterTest {
         Assertions.assertThat(card.getTerm()).isEqualTo(cardDTO.getTerm());
         Assertions.assertThat(card.getDescription()).isEqualTo(cardDTO.getDescription());
         Assertions.assertThat(card.getImage()).isEqualTo(cardDTO.getImage());
-        Assertions.assertThat(card.getStudySet().getTitle()).isEqualTo(cardDTO.getStudySet());
+        Assertions.assertThat(card.getStudySet().getStudySetId()).isEqualTo(cardDTO.getStudySet().getStudySetId());
     }
 
     @Test
@@ -73,12 +79,27 @@ public class CardConverterTest {
     @Test
     public void ConvertCardDTOToEntity() throws Exception {
         // Given
+        UserDTO userDTO = UserDTO.builder()
+                .userId(1L)
+                .userName("test")
+                .email("cmc@gmail.com")
+                .build();
+
+        StudySetDTO studySetDTO = StudySetDTO.builder()
+                .studySetId(1L)
+                .title("Test Title")
+                .description("Test description")
+                .sharedLink("http://sharedlinktest")
+                .visibility(EVisibility.valueOf("everyone"))
+                .user(userDTO)
+                .build();
+
         CardDTO cardDTO = CardDTO.builder()
                 .cardId(1L)
                 .term("Test term")
                 .description("Test description")
                 .image("http://testimages")
-                .studySet("Test study set")
+                .studySet(studySetDTO)
                 .build();
 
         // When
@@ -89,6 +110,7 @@ public class CardConverterTest {
         Assertions.assertThat(card.getTerm()).isEqualTo(cardDTO.getTerm());
         Assertions.assertThat(card.getDescription()).isEqualTo(cardDTO.getDescription());
         Assertions.assertThat(card.getImage()).isEqualTo(cardDTO.getImage());
+        Assertions.assertThat(card.getStudySet().getStudySetId()).isEqualTo(cardDTO.getStudySet().getStudySetId());
     }
 
     @Test
@@ -101,6 +123,5 @@ public class CardConverterTest {
 
         // Then
         Assertions.assertThat(card).isNull();
-
     }
 }

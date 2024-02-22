@@ -11,5 +11,5 @@ public class CardDTO {
     private String term;
     private String description;
     private String image;
-    private String studySet;
+    private StudySetDTO studySet;
 }

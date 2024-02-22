@@ -3,6 +3,7 @@ package com.flashcard.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -25,6 +26,12 @@ public class User {
 
     @Column(name = "email", nullable=false)
     private String email;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<StudySet> studySets;
