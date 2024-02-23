@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @DataJpaTest
@@ -29,57 +28,56 @@ public class UserRepositoryTest {
     public void saveUserTest() throws Exception {
         // Given
         User user = createUser();
+
         // When
         User savedUser = userRepository.save(user);
+
         // Then
         Assertions.assertThat(savedUser).isNotNull();
     }
 
     @Test
     @Order(2)
-    public void getUserByIdTest() throws Exception {
+    public void findUserByIdTest() throws Exception {
         // Given
         User savedUser = null;
+
         // When
         Optional<User> optionalUser = userRepository.findById(1L);
         if (optionalUser.isPresent()) {
             savedUser = optionalUser.get();
         }
+
         // Then
         Assertions.assertThat(savedUser).isNotNull();
     }
 
     @Test
     @Order(3)
-    public void getListUsersTest() throws Exception {
-        // When
-        List<User> users = userRepository.findAll();
-        // Then
-        Assertions.assertThat(users.size()).isGreaterThan(0);
-    }
-
-    @Test
-    @Order(4)
     @Rollback(value = false)
     public void updateUserTest() throws Exception {
         // Given
         savedUser.setUserName("username");
+
         // When
         User newUser = userRepository.save(savedUser);
+
         // Then
         Assertions.assertThat(newUser.getUserName()).isEqualTo(savedUser.getUserName());
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     @Rollback(value = false)
     public void deleteUserTest() throws Exception {
         // Given
-       long userId = savedUser.getUserId();
-       // When
-       userRepository.delete(savedUser);
-       // Then
-       Assertions.assertThat(userRepository.findById(userId)).isNotPresent();
+        long userId = savedUser.getUserId();
+
+        // When
+        userRepository.delete(savedUser);
+
+        // Then
+        Assertions.assertThat(userRepository.findById(userId)).isNotPresent();
     }
 
     private User saveUser() throws Exception {

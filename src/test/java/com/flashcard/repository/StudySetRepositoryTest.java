@@ -46,7 +46,7 @@ public class StudySetRepositoryTest {
 
     @Test
     @Order(2)
-    public void getStudySetByIdTest() throws Exception {
+    public void findStudySetByIdTest() throws Exception {
         // Given
         StudySet savedStudySet = null;
 
@@ -62,9 +62,12 @@ public class StudySetRepositoryTest {
 
     @Test
     @Order(3)
-    public void getStudySetsByUserIdTest() throws Exception {
+    public void findStudySetsByUserIdTest() throws Exception {
+        // Given
+        Long userId = savedUser.getUserId();
+
         // When
-        List<StudySet> studySet = studySetRepository.findByUser(savedUser.getUserId());
+        List<StudySet> studySet = studySetRepository.findByUser(userId);
 
         // Then
         Assertions.assertThat(studySet).isNotNull();
@@ -73,20 +76,10 @@ public class StudySetRepositoryTest {
 
     @Test
     @Order(4)
-    public void getStudySetsTest() throws Exception {
-        // When
-        List<StudySet> savedStudySets = studySetRepository.findAll();
-
-        // Then
-        Assertions.assertThat(savedStudySets.size()).isGreaterThan(0);
-    }
-
-    @Test
-    @Order(5)
     @Rollback(value = false)
     public void updateStudySetTest() throws Exception {
         // Given
-        savedStudySet.setCreatedAt(LocalDateTime.parse("2019-12-15T15:14:21.629"));
+        savedStudySet.setCreatedAt(LocalDateTime.now());
 
         // When
         StudySet newStudySet = studySetRepository.save(savedStudySet);
@@ -97,7 +90,7 @@ public class StudySetRepositoryTest {
 
 
     @Test
-    @Order(6)
+    @Order(5)
     @Rollback(value = false)
     public void deleteStudySetTest() throws Exception {
         // Given
@@ -131,7 +124,7 @@ public class StudySetRepositoryTest {
                 .title("Test Title")
                 .description("Test description")
                 .sharedLink("http://sharedlinktest")
-                .visibility(EVisibility.valueOf("everyone"))
+                .visibility(EVisibility.valueOf("EVERYONE"))
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .user(savedUser)

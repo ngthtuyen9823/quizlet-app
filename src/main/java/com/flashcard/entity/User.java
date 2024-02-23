@@ -35,7 +35,4 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<StudySet> studySets;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<UseOfStudySet> useOfStudySets;
 }

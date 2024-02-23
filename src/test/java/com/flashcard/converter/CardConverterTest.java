@@ -36,7 +36,7 @@ public class CardConverterTest {
                 .title("Test Title")
                 .description("Test description")
                 .sharedLink("http://sharedlinktest")
-                .visibility(EVisibility.valueOf("everyone"))
+                .visibility(EVisibility.valueOf("EVERYONE"))
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .user(user)
@@ -47,7 +47,6 @@ public class CardConverterTest {
                 .term("Term Test")
                 .description("Description Test")
                 .image("http://example.test.com")
-                .lastViewedAt(LocalDateTime.now())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .studySet(studySet)
@@ -90,7 +89,7 @@ public class CardConverterTest {
                 .title("Test Title")
                 .description("Test description")
                 .sharedLink("http://sharedlinktest")
-                .visibility(EVisibility.valueOf("everyone"))
+                .visibility(EVisibility.valueOf("EVERYONE"))
                 .user(userDTO)
                 .build();
 

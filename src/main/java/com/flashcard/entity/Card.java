@@ -25,9 +25,6 @@ public class Card {
 
     private String image;
 
-    @Column(name = "last_viewed_at")
-    private LocalDateTime lastViewedAt;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

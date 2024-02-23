@@ -34,7 +34,7 @@ public class StudySetConverterTest {
                 .title("Test Title")
                 .description("Test description")
                 .sharedLink("http://sharedlinktest")
-                .visibility(EVisibility.valueOf("everyone"))
+                .visibility(EVisibility.valueOf("EVERYONE"))
                 .user(user)
                 .build();
 
@@ -76,7 +76,7 @@ public class StudySetConverterTest {
                 .title("Test Title")
                 .description("Test description")
                 .sharedLink("http://sharedlinktest")
-                .visibility(EVisibility.valueOf("everyone"))
+                .visibility(EVisibility.valueOf("EVERYONE"))
                 .user(userDTO)
                 .build();
 

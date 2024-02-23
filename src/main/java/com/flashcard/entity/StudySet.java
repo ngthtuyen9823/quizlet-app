@@ -39,11 +39,8 @@ public class StudySet {
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "owner_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studySet")
-    private List<UseOfStudySet> useOfStudySets;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "studySet")
     private List<Card> cards;

@@ -48,7 +48,7 @@ public class CardRepositoryTest {
 
     @Test
     @Order(2)
-    public void getCardTest() throws Exception {
+    public void findCardByIdTest() throws Exception {
         // Given
         Card savedCard = null;
         // When
@@ -62,9 +62,11 @@ public class CardRepositoryTest {
 
     @Test
     @Order(3)
-    public void getListCardsTest() throws Exception {
+    public void findCardsByStudySetTest() throws Exception {
+        // Given
+        Long studySetId = savedStudySet.getStudySetId();
         // When
-        List<Card> savedCards = cardRepository.findAll();
+        List<Card> savedCards = cardRepository.findByStudySet(studySetId);
         // Then
         Assertions.assertThat(savedCards.size()).isGreaterThan(0);
     }
@@ -74,7 +76,7 @@ public class CardRepositoryTest {
     @Rollback(value = false)
     public void updateCardTest() throws Exception {
         // Given
-        savedCard.setCreatedAt(LocalDateTime.parse("2019-12-15T15:14:21.629"));
+        savedCard.setCreatedAt(LocalDateTime.now());
         // When
         Card newCard = cardRepository.save(savedCard);
         // Then
@@ -110,7 +112,7 @@ public class CardRepositoryTest {
                 .title("Test Title")
                 .description("Test description")
                 .sharedLink("http://sharedlinktest")
-                .visibility(EVisibility.valueOf("everyone"))
+                .visibility(EVisibility.valueOf("EVERYONE"))
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .user(savedUser)
@@ -128,7 +130,6 @@ public class CardRepositoryTest {
                 .term("Term Test")
                 .description("Description Test")
                 .image("http://example.test.com")
-                .lastViewedAt(LocalDateTime.now())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .studySet(savedStudySet)
